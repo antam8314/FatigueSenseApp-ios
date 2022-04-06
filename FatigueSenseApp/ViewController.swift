@@ -115,7 +115,7 @@ extension FSViewController: CBCentralManagerDelegate {
       print("central.state is .poweredOff")
     case .poweredOn:
       print("central.state is .poweredOn")
-      centralManager.scanForPeripherals(withServices: [heartRateServiceCBUUID])
+      centralManager.scanForPeripherals(withServices: [fatigueServiceCBUUID])
     @unknown default:
       print("central.state is .unknown")
     }
