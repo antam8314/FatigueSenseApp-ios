@@ -78,14 +78,44 @@ class FSViewController: UIViewController {
   }
   
   func onRespiratoryRateReceived(_ respiratoryRate: Int, respiratoryIntensity: Int) {
-    respiratoryRateLabel.text = String(respiratoryRate)
-    respiratoryIntensityLabel.text = String(respiratoryIntensity)
+    if respiratoryRate < 5 {
+      respiratoryRateLabel.text = String("--")
+    }
+    else if respiratoryRate < 11 {
+      respiratoryRateLabel.text = String("5-11")
+    }
+    else if respiratoryRate < 17 {
+      respiratoryRateLabel.text = String("12-16")
+    }
+    else if respiratoryRate < 23 {
+      respiratoryRateLabel.text = String("17-22")
+    }
+    else if respiratoryRate < 29 {
+      respiratoryRateLabel.text = String("23-28")
+    }
+    else if respiratoryRate < 35 {
+      respiratoryRateLabel.text = String("29-34")
+    }
+    else {
+      respiratoryRateLabel.text = String("High")
+    }
+    //respiratoryRateLabel.text = String(respiratoryRate)
+    
+    if respiratoryIntensity == 0 {
+      respiratoryIntensityLabel.text = String("Normal")
+    }
+    else {
+      respiratoryIntensityLabel.text = String("Shallow")
+    }
+    //respiratoryIntensityLabel.text = String(respiratoryIntensity)
+    
     print("Resp Rate:  \(respiratoryRate)")
     print("Intensity:  \(respiratoryIntensity)")
   }
   
   func onGalvanicSkinRateReceived(_ galvanicSkinResponse: Float) {
-    galvanicSkinResponseLabel.text = String(galvanicSkinResponse)
+    galvanicSkinResponseLabel.text = String("--")
+    //galvanicSkinResponseLabel.text = String(galvanicSkinResponse)
     print("GSR:        \(galvanicSkinResponse)")
   }
   
@@ -250,8 +280,8 @@ extension FSViewController: CBPeripheralDelegate {
     guard let characteristicData = characteristic.value else { return -1 }
     let byteArray = [UInt8](characteristicData)
 
-    // Respiratory Intensity Value Format is in the 3rd and 4th bytes
-    return (Int(byteArray[3]) << 8) + Int(byteArray[2])
+    // Respiratory Intensity Value Format is in the 3rd byte
+    return (Int(byteArray[2]))
   }
   
   private func galvanicSkinResponse(from characteristic: CBCharacteristic) -> Float {
